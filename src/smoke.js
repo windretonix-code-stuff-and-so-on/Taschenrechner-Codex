@@ -1,4 +1,8 @@
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+export function smokeFill(hidden) {
+  const count=Math.max(0,hidden);
+  return { density:1-Math.exp(-count/10), rearCount:12+Math.min(36,count*2), frontCount:5+Math.min(8,Math.floor(count/3)) };
+}
 export class Smoke {
   constructor(rear,front){
     this.canvases=[rear,front];this.contexts=this.canvases.map(c=>c.getContext('2d'));this.particles=[];this.hidden=0;this.mode='idle';this.energy=0;this.last=0;this.frame=0;
@@ -22,16 +26,18 @@ export class Smoke {
     if(document.hidden){this.last=now;return;}
     if(now-this.last<33)return;
     const dt=Math.min((now-this.last)/1000,.06);this.last=now;
-    const size=this.size,t=now/1000;
+    const size=this.size,t=now/1000,fill=smokeFill(this.hidden);
     for(const [layer,ctx] of this.contexts.entries()){
       ctx.clearRect(0,0,size,size);ctx.save();ctx.scale(size,size);ctx.beginPath();ctx.arc(.5,.5,.485,0,Math.PI*2);ctx.clip();
-      const count=layer?5:12;
+      const count=layer?fill.frontCount:fill.rearCount;
       for(let i=0;i<count;i++){
         const angle=i*2.399+t*(this.reduced?.008:this.mode==='error'?.23:.026)*(i%2?1:-1);
-        const radius=this.mode==='result'?.07+.07*Math.sin(t*3+i):.2+.06*Math.sin(i+t*.12);
+        const radius=this.mode==='result'?.07+.07*Math.sin(t*3+i):.2+.06*Math.sin(i+t*.12)+fill.density*.12*Math.sin(i*1.3);
         const x=.5+Math.cos(angle)*radius,y=(layer&&this.mode==='error'?.76:.55)+Math.sin(angle)*radius*.82;
-        const extent=.28+.08*Math.sin(i*1.7+t*.2);
-        ctx.globalAlpha=clamp((layer?.18:.38)*(0.12+Math.log1p(this.hidden)*.12+this.energy*1.8),0,1);
+        const extent=.28+.08*Math.sin(i*1.7+t*.2)+fill.density*.12;
+        // Stored characters add persistent volume; only transient magic energy decays.
+        // Most density sits behind the text so a full orb remains readable.
+        ctx.globalAlpha=clamp((layer?.18:.38)*(0.12+fill.density*(layer?.7:2.4)+this.energy*1.8),0,1);
         if(this.mode==='error')ctx.globalAlpha*=1.35;
         ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.scale(1,.58+.1*Math.sin(t+i));
         ctx.drawImage(this.sprites[this.mode==='error'?2:i%2],-extent/2,-extent/2,extent,extent);ctx.restore();

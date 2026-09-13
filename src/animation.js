@@ -7,7 +7,7 @@ export class AnimationController {
   clear(){this.cancel();this.smoke.reset();this.display.show('',{animate:false});}
   input(text,hidden,effect){
     const previousPoints=this.display.points();
-    this.cancel();this.smoke.setHidden(hidden);this.display.show(text,{reverse:effect.reverse});
+    this.cancel();this.smoke.setHidden(hidden);this.display.show(text,{animate:false,reverse:effect.reverse});
     const nextPoints=this.display.points();
     if(effect.delta){const points=effect.delta<0?nextPoints:previousPoints;for(const p of points.slice(0,Math.abs(effect.delta)))this.smoke.burst(p.x,p.y,15,effect.delta<0);}
     else if(text){const p=nextPoints.at(-1);if(p)this.smoke.burst(p.x,p.y,5);}
