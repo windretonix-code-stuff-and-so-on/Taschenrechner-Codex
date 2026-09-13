@@ -4,7 +4,7 @@ export class Smoke {
     this.canvases=[rear,front];this.contexts=this.canvases.map(c=>c.getContext('2d'));this.particles=[];this.hidden=0;this.mode='idle';this.energy=0;this.last=0;this.frame=0;
     this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.sprites=['115,138,240','114,83,210','46,42,77'].map(rgb=>{
-      const c=document.createElement('canvas');c.width=c.height=96;const ctx=c.getContext('2d'),g=ctx.createRadialGradient(48,48,0,48,48,48);g.addColorStop(0,`rgba(${rgb},.35)`);g.addColorStop(.4,`rgba(${rgb},.15)`);g.addColorStop(1,`rgba(${rgb},0)`);ctx.fillStyle=g;ctx.fillRect(0,0,96,96);return c;
+      const c=document.createElement('canvas');c.width=c.height=96;const ctx=c.getContext('2d'),g=ctx.createRadialGradient(48,48,0,48,48,48);g.addColorStop(0,`rgba(${rgb},.75)`);g.addColorStop(.4,`rgba(${rgb},.35)`);g.addColorStop(1,`rgba(${rgb},0)`);ctx.fillStyle=g;ctx.fillRect(0,0,96,96);return c;
     });
     this.resize=()=>{const width=rear.getBoundingClientRect().width;const size=Math.min(900,Math.max(256,Math.round(width*Math.min(devicePixelRatio,1.6))));this.size=size;for(const c of this.canvases)c.width=c.height=size;};
     addEventListener('resize',this.resize);this.resize();this.tick=this.tick.bind(this);this.frame=requestAnimationFrame(this.tick);
@@ -27,11 +27,11 @@ export class Smoke {
       ctx.clearRect(0,0,size,size);ctx.save();ctx.scale(size,size);ctx.beginPath();ctx.arc(.5,.5,.485,0,Math.PI*2);ctx.clip();
       const count=layer?5:12;
       for(let i=0;i<count;i++){
-        const angle=i*2.399+t*(this.reduced?.008:.026)*(i%2?1:-1);
+        const angle=i*2.399+t*(this.reduced?.008:this.mode==='error'?.23:.026)*(i%2?1:-1);
         const radius=this.mode==='result'?.07+.07*Math.sin(t*3+i):.2+.06*Math.sin(i+t*.12);
-        const x=.5+Math.cos(angle)*radius,y=.55+Math.sin(angle)*radius*.82;
+        const x=.5+Math.cos(angle)*radius,y=(layer&&this.mode==='error'?.76:.55)+Math.sin(angle)*radius*.82;
         const extent=.28+.08*Math.sin(i*1.7+t*.2);
-        ctx.globalAlpha=(layer?.14:.33)*(0.19+Math.log1p(this.hidden)*.12+this.energy*1.8);
+        ctx.globalAlpha=clamp((layer?.18:.38)*(0.12+Math.log1p(this.hidden)*.12+this.energy*1.8),0,1);
         if(this.mode==='error')ctx.globalAlpha*=1.35;
         ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.scale(1,.58+.1*Math.sin(t+i));
         ctx.drawImage(this.sprites[this.mode==='error'?2:i%2],-extent/2,-extent/2,extent,extent);ctx.restore();

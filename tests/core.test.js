@@ -49,3 +49,8 @@ test('rapid entry and reversal never desynchronize hidden count', () => {
   assert.equal(presentation(s).visible,'');
 });
 test('depth and input limits prevent runaway work', () => { assert.equal(validPrefix('('.repeat(129)),false); assert.equal(validPrefix('1'.repeat(513)),false); });
+test('continuation hides floating artifacts without changing internal precision',()=>{
+  const result=type([...'0,1+0,2','=']);const next=reduce(result,'+');
+  assert.equal(presentation(next).visible,'0,3+');assert.equal(next.expression,'0.30000000000000004+');
+  const shortened=reduce(reduce(next,'backspace'),'backspace');assert.equal(shortened.expression,'0.');
+});
