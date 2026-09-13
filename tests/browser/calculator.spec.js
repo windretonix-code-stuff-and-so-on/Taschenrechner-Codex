@@ -2,6 +2,11 @@ import {test,expect} from '@playwright/test';
 test.beforeEach(async({page})=>{await page.goto('/');await page.waitForFunction(()=>[...document.images].every(i=>i.complete));});
 const key=async(page,text)=>{for(const k of text)await page.keyboard.press(k);};
 const display=page=>page.locator('#display');
+test('typed digits are immediately visible without a reveal animation',async({page})=>{
+  await page.keyboard.press('7');
+  const state=await display(page).evaluate(el=>({text:el.textContent,opacity:getComputedStyle(el.firstElementChild).opacity,animations:el.getAnimations({subtree:true}).length}));
+  expect(state).toEqual({text:'7',opacity:'1',animations:0});
+});
 test('empty initial state and local assets',async({page})=>{await expect(display(page)).toHaveText('');expect(await page.locator('img').evaluateAll(images=>images.every(i=>i.naturalWidth>0))).toBe(true);});
 test('mouse and keyboard arithmetic parity',async({page})=>{
   await page.getByRole('button',{name:'2',exact:true}).click();await page.getByRole('button',{name:'Plus',exact:true}).click();await key(page,'3*4');await page.keyboard.press('Enter');await expect(display(page)).toHaveText('14');

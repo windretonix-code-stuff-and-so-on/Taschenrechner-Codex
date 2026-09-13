@@ -34,3 +34,7 @@ Leistungsgrenzen: maximal 180 Lichtpartikel; vorgerechnete Rauch-Sprites, 17 Neb
 - Prüfbilder: `desktop.png`, `portrait.png`, `expression.png`, `result-condensation.png`, `wizard.png`.
 - Audioknoten und Zeitablauf wurden automatisiert geprüft; eine gehörte Qualitätsabnahme des Klangs wurde nicht durchgeführt.
 - Premium-Endabnahme bleibt wegen des bewusst synthetischen Tons und der offenen langen Ergebnisdarstellung eingeschränkt. Reale Mobilgeräte sind noch nicht geprüft.
+
+## Nachbesserung: sofortige Eingabe und Rauchfüllung
+Nutzerwunsch umgesetzt auf `codex/task-06-instant-input-smoke`: Eingaben erscheinen ohne Einblendverzögerung unmittelbar an ihrer endgültigen Position. Jedes verdrängte Zeichen erhöht die dauerhafte Rauchfüllung; größere Rauchflächen und zusätzliche begrenzte Nebelformen machen dies sichtbar. Backspace reduziert die Füllung entsprechend, C leert sie. Der überwiegende Rauch bleibt hinter der Schrift. Maximal 48 hintere und 13 vordere Nebelformen.
+Prüfung: 44 Unit-Tests und sechs gezielte Desktop-/Portrait-Browsertests bestanden; aktualisierte Vorschau visuell geprüft.
