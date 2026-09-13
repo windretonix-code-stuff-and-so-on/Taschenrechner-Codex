@@ -1,0 +1,11 @@
+import { chromium } from '@playwright/test';
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});
+page.on('pageerror',error=>console.error(error));
+await page.goto('http://127.0.0.1:4173');await page.waitForFunction(()=>[...document.images].every(i=>i.complete));
+await page.screenshot({path:'docs/desktop.png'});
+await page.keyboard.type('123456789012');await page.waitForTimeout(500);await page.screenshot({path:'docs/expression.png'});
+await page.keyboard.press('Escape');await page.keyboard.type('2+3');await page.keyboard.press('Enter');await page.waitForTimeout(750);await page.screenshot({path:'docs/result-condensation.png'});await page.keyboard.press('Escape');
+await page.keyboard.press('Escape');await page.keyboard.type('5/0');await page.keyboard.press('Enter');await page.waitForTimeout(1060);await page.screenshot({path:'docs/wizard.png'});await page.keyboard.press('Escape');
+await page.setViewportSize({width:390,height:844});await page.screenshot({path:'docs/portrait.png'});
+await browser.close();

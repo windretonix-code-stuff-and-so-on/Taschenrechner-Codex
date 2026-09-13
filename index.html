@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Ein magischer Kristallkugel-Taschenrechner. Lokal, ohne Tracking und ohne Anmeldung.">
+  <title>Magic Orb · Kristallrechner</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <main aria-label="Magischer Kristallkugel-Taschenrechner">
+    <div id="artifact" class="artifact">
+      <img class="artifact-body" src="assets/artifact.png" alt="" draggable="false">
+      <svg id="supports" class="supports" aria-hidden="true"></svg>
+      <div class="orb" id="orb" aria-hidden="true">
+        <canvas id="rear-smoke"></canvas>
+        <div id="display" class="display"></div>
+        <div id="wizard" class="wizard"></div>
+        <canvas id="front-smoke"></canvas>
+        <div class="glass-reflection"></div>
+      </div>
+      <div id="controls"></div>
+      <button id="candle" class="candle" type="button" aria-label="Ton ausschalten" aria-pressed="true">
+        <img src="assets/candle.png" alt="" draggable="false"><span class="flame"></span><span class="wick-smoke"></span>
+      </button>
+    </div>
+    <output id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></output>
+    <p class="sr-only">Ziffern und Rechenzeichen über die Tastatur eingeben. Enter berechnet, Rücktaste löscht ein Zeichen, Escape löscht alles. Die Kerze schaltet den Ton um.</p>
+  </main>
+  <noscript>Bitte aktiviere JavaScript, um den Kristallrechner zu verwenden.</noscript>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

@@ -18,5 +18,6 @@ Rechenzustand ist synchron und unabhängig vom Rendern. Eine zentrale Effektsteu
 
 ## Offene Produktfragen
 
-- Ergebnisse über neun Zeichen: Nutzerentscheidung steht aus; unabhängig davon bleibt die interne Zahl ungekürzt.
-- Realistische Sprachaufnahme und transparente Gesichtsanimation benötigen eigene geeignete Assets. Fehlende Abnahmequalität wird ausdrücklich ausgewiesen, nicht als fertige V1 bezeichnet.
+- Ergebnisse über neun Zeichen: Nutzerentscheidung steht aus; vorläufig gerundet/exponentiell, intern ungekürzt.
+- Ton: Nutzer hat einen dokumentierten synthetischen Klang als Zwischenlösung erlaubt. Die realistische Aufnahme bleibt ein späterer Austausch.
+- Eigene transparente Gesichtssequenz mit acht unterschiedlichen Phasen erstellt und integriert.
