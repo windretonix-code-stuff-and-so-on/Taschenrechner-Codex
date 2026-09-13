@@ -6,14 +6,15 @@ export class AnimationController {
   }
   clear(){this.cancel();this.smoke.reset();this.display.show('',{animate:false});}
   input(text,hidden,effect){
+    const previousPoints=this.display.points();
     this.cancel();this.smoke.setHidden(hidden);this.display.show(text,{reverse:effect.reverse});
-    if(effect.delta){this.smoke.burst(.22,.5,Math.min(36,Math.abs(effect.delta)*15),effect.delta<0);}
-    else if(text)this.smoke.burst(.5+Math.min(text.length,9)*.024,.5,5);
+    const nextPoints=this.display.points();
+    if(effect.delta){const points=effect.delta<0?nextPoints:previousPoints;for(const p of points.slice(0,Math.abs(effect.delta)))this.smoke.burst(p.x,p.y,15,effect.delta<0);}
+    else if(text){const p=nextPoints.at(-1);if(p)this.smoke.burst(p.x,p.y,5);}
   }
   result(text){
     this.cancel();this.mode='result';this.smoke.mode='result';this.smoke.energy=1;this.smoke.setHidden(0);this.display.dissolve();
-    const count=Math.max(1,this.display.text.length);
-    for(let i=0;i<count;i++)this.smoke.burst(.5+(i-(count-1)/2)*.05,.5,12);
+    for(const p of this.display.points())this.smoke.burst(p.x,p.y,12);
     const generation=this.generation,start=performance.now();let materialized=false;
     const tick=now=>{
       if(generation!==this.generation)return;

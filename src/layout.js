@@ -1,6 +1,6 @@
 export const masters = {
   standard: { width: 1000, height: 1000, cx: 480, cy: 430, diameter: 570, arcX: 355, arcY: 350, baseY: 790, candle: [858,815,230] },
-  portrait: { width: 780, height: 1100, cx: 390, cy: 430, diameter: 570, arcX: 335, arcY: 345, baseY: 790, candle: [708,932,200] }
+  portrait: { width: 780, height: 1100, cx: 390, cy: 430, diameter: 570, arcX: 335, arcY: 345, baseY: 790, candle: [721,999,160] }
 };
 export function coordinates(master) {
   const { cx, cy, arcX, arcY, baseY } = master;
@@ -42,7 +42,7 @@ export function mountLayout(activate) {
     const svg=document.querySelector('#supports'); svg.setAttribute('viewBox',`0 0 ${current.width} ${current.height}`);
     // Multi-pass metal relief: dark load-bearing silhouette, warm patina and a narrow reflected edge.
     const paths=positions.map(p=> {
-      const target=p.digit?{x:current.cx+(p.x-current.cx)*0.79,y:current.cy+(p.y-current.cy)*0.79}:{x:current.cx+(p.x-current.cx)*0.72,y:current.baseY+12};
+      const target=p.digit?{x:current.cx+(p.x-current.cx)*0.79,y:current.cy+(p.y-current.cy)*0.79}:{x:current.cx+(p.x-current.cx)*0.4,y:current.baseY+12};
       return `M${p.x} ${p.y} C${p.x+(current.cx-p.x)*0.16} ${p.y+32},${target.x-12} ${target.y+18},${target.x} ${target.y}`;
     });
     svg.innerHTML='<defs><linearGradient id="metal"><stop stop-color="#17100a"/><stop offset=".23" stop-color="#876239"/><stop offset=".42" stop-color="#dfc38a"/><stop offset=".56" stop-color="#4e341b"/><stop offset=".81" stop-color="#a88750"/><stop offset="1" stop-color="#21170e"/></linearGradient></defs>'+paths.map(d=>`<path d="${d}" fill="none" stroke="#1d150e" stroke-width="12"/><path d="${d}" fill="none" stroke="url(#metal)" stroke-width="8"/><path d="${d}" fill="none" stroke="#dbca9a" stroke-opacity=".35" stroke-width="1"/>`).join('');
