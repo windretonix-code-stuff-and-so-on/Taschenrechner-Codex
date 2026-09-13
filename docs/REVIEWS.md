@@ -38,3 +38,6 @@ Leistungsgrenzen: maximal 180 Lichtpartikel; vorgerechnete Rauch-Sprites, 17 Neb
 ## Nachbesserung: sofortige Eingabe und Rauchfüllung
 Nutzerwunsch umgesetzt auf `codex/task-06-instant-input-smoke`: Eingaben erscheinen ohne Einblendverzögerung unmittelbar an ihrer endgültigen Position. Jedes verdrängte Zeichen erhöht die dauerhafte Rauchfüllung; größere Rauchflächen und zusätzliche begrenzte Nebelformen machen dies sichtbar. Backspace reduziert die Füllung entsprechend, C leert sie. Der überwiegende Rauch bleibt hinter der Schrift. Maximal 48 hintere und 13 vordere Nebelformen.
 Prüfung: 44 Unit-Tests und sechs gezielte Desktop-/Portrait-Browsertests bestanden; aktualisierte Vorschau visuell geprüft.
+
+## Nachbesserung: schlichte Zahlen
+Auf Nutzerwunsch den zusätzlichen Canvas mit der leuchtenden Textkopie entfernt. Die Anzeige verwendet nur noch eine klare Textebene ohne Schatten, Tiefenwirkung oder Unschärfe. Ergebnisübergänge verwenden ausschließlich Deckkraft; Eingaben bleiben sofort sichtbar. Branch: `codex/task-07-plain-numbers`.
