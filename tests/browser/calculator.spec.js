@@ -2,6 +2,14 @@ import {test,expect} from '@playwright/test';
 test.beforeEach(async({page})=>{await page.goto('/');await page.waitForFunction(()=>[...document.images].every(i=>i.complete));});
 const key=async(page,text)=>{for(const k of text)await page.keyboard.press(k);};
 const display=page=>page.locator('#display');
+test('leading zeros are replaced for mouse and keyboard input',async({page})=>{
+  await page.getByRole('button',{name:'0',exact:true}).click();
+  await page.getByRole('button',{name:'5',exact:true}).click();
+  await expect(display(page)).toHaveText('5');
+  await key(page,'+007');await expect(display(page)).toHaveText('5+7');
+  await page.keyboard.press('Escape');await key(page,'0.05+10');await expect(display(page)).toHaveText('0,05+10');
+  await page.keyboard.press('Enter');await expect(display(page)).toHaveText('10,05');
+});
 test('typed digits are immediately visible without a reveal animation',async({page})=>{
   await page.keyboard.press('7');
   const state=await display(page).evaluate(el=>({text:el.textContent,opacity:getComputedStyle(el.firstElementChild).opacity,animations:el.getAnimations({subtree:true}).length}));
