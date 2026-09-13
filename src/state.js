@@ -29,6 +29,9 @@ export function reduce(state, action) {
   else {
     const char = ({ '×': '*', '÷': '/', '−': '-', ',': '.' })[action] || action;
     if (!/^[0-9+*/().-]$/.test(char)) return state;
+    // Replace a lone integer zero, including after an operator or opening bracket.
+    // Decimal fractions and zeros inside an existing integer remain untouched.
+    if (/^[0-9]$/.test(char) && /(?:^|[+*/(-])0$/.test(expression)) expression = expression.slice(0, -1);
     expression += char === '.' && (!expression || /[+*/(-]$/.test(expression)) ? '0.' : char;
   }
   if (!validPrefix(expression) || expression === state.expression && state.mode !== 'result') return state;

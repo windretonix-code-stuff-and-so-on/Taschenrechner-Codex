@@ -11,6 +11,7 @@ export function validPrefix(source) {
     if (/\d/.test(c) || c === '.') {
       if (!expectsValue && !number) return false;
       if (c === '.' && number.includes('.')) return false;
+      if (/\d/.test(c) && number === '0') return false;
       number += c; expectsValue = false; unary = false;
     } else if (c === 'e' && number) {
       const m = source.slice(i).match(/^e[+-]?\d+/);

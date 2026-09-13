@@ -54,3 +54,15 @@ test('continuation hides floating artifacts without changing internal precision'
   assert.equal(presentation(next).visible,'0,3+');assert.equal(next.expression,'0.30000000000000004+');
   const shortened=reduce(reduce(next,'backspace'),'backspace');assert.equal(shortened.expression,'0.');
 });
+test('leading integer zeros are replaced at each operand boundary',()=>{
+  for(const [keys,expected] of [['05','5'],['000','0'],['5+007','5+7'],['(03','(3'],['-04','-4'],['5*-02','5*-2']])assert.equal(type([...keys]).expression,expected);
+});
+test('zeros after digits and before operators or decimals remain valid',()=>{
+  for(const keys of ['10','1002','0+5','0*2','0/3','0.05','5+0.02','(0)'])assert.equal(type([...keys]).expression,keys);
+  assert.equal(validPrefix('05'),false);assert.equal(validPrefix('2+00'),false);assert.equal(validPrefix('0.05'),true);
+});
+test('repeated zero is a no-op; backspace and fresh result entry follow zero rule',()=>{
+  const zero=type(['0']);assert.equal(reduce(zero,'0'),zero);
+  assert.equal(type(['0','5','backspace']).expression,'');
+  assert.equal(type(['2','=','0','7']).expression,'7');
+});
