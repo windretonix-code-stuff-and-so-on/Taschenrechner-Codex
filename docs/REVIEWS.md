@@ -41,3 +41,6 @@ Prüfung: 44 Unit-Tests und sechs gezielte Desktop-/Portrait-Browsertests bestan
 
 ## Nachbesserung: schlichte Zahlen
 Auf Nutzerwunsch den zusätzlichen Canvas mit der leuchtenden Textkopie entfernt. Die Anzeige verwendet nur noch eine klare Textebene ohne Schatten, Tiefenwirkung oder Unschärfe. Ergebnisübergänge verwenden ausschließlich Deckkraft; Eingaben bleiben sofort sichtbar. Branch: `codex/task-07-plain-numbers`.
+
+## Nachbesserung: keine führenden Nullen
+Eine alleinige Null am Anfang eines ganzzahligen Operanden wird durch die nächste Ziffer ersetzt (`05` → `5`, `2+007` → `2+7`). Wiederholte Null bleibt eine einzelne Null. Nullen hinter Ziffern, vor Operatoren und in Dezimalzahlen bleiben erlaubt (`100`, `0+5`, `0,05`). Gilt ebenfalls nach Klammern und unärem Minus. 47 Unit-Tests und zwei gezielte Browserprüfungen für Maus/Tastatur auf Desktop/Portrait bestanden. Branch: `codex/task-08-leading-zero`.
